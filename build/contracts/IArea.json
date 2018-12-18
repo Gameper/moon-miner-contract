@@ -44,14 +44,14 @@
     "absolutePath": "/Users/coinplug/BangGijin/moon-miner-contract/contracts/interface/IArea.sol",
     "exportedSymbols": {
       "IArea": [
-        14
+        2697
       ]
     },
-    "id": 15,
+    "id": 2698,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1,
+        "id": 2684,
         "literals": [
           "solidity",
           "^",
@@ -59,7 +59,7 @@
           ".24"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:0"
+        "src": "0:24:4"
       },
       {
         "baseContracts": [],
@@ -67,9 +67,9 @@
         "contractKind": "contract",
         "documentation": "@title IArea\n@dev interface for Area",
         "fullyImplemented": false,
-        "id": 14,
+        "id": 2697,
         "linearizedBaseContracts": [
-          14
+          2697
         ],
         "name": "IArea",
         "nodeType": "ContractDefinition",
@@ -77,7 +77,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 8,
+            "id": 2691,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -85,23 +85,23 @@
             "name": "getCurrentBeneficiaryInfo",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2,
+              "id": 2685,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "132:2:0"
+              "src": "132:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 7,
+              "id": 2690,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4,
+                  "id": 2687,
                   "name": "beneficiary",
                   "nodeType": "VariableDeclaration",
-                  "scope": 8,
-                  "src": "155:19:0",
+                  "scope": 2691,
+                  "src": "155:19:4",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -109,10 +109,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3,
+                    "id": 2686,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "155:7:0",
+                    "src": "155:7:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -123,11 +123,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 6,
+                  "id": 2689,
                   "name": "ratio",
                   "nodeType": "VariableDeclaration",
-                  "scope": 8,
-                  "src": "176:13:0",
+                  "scope": 2691,
+                  "src": "176:13:4",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -135,10 +135,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 5,
+                    "id": 2688,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "176:7:0",
+                    "src": "176:7:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -148,10 +148,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "154:36:0"
+              "src": "154:36:4"
             },
-            "scope": 14,
-            "src": "98:93:0",
+            "scope": 2697,
+            "src": "98:93:4",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
@@ -159,7 +159,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 13,
+            "id": 2696,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -167,23 +167,23 @@
             "name": "moveCursor",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 9,
+              "id": 2692,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "215:2:0"
+              "src": "215:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 12,
+              "id": 2695,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 11,
+                  "id": 2694,
                   "name": "success",
                   "nodeType": "VariableDeclaration",
-                  "scope": 13,
-                  "src": "234:12:0",
+                  "scope": 2696,
+                  "src": "234:12:4",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -191,10 +191,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 10,
+                    "id": 2693,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "234:4:0",
+                    "src": "234:4:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -204,33 +204,33 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "233:14:0"
+              "src": "233:14:4"
             },
-            "scope": 14,
-            "src": "196:52:0",
+            "scope": 2697,
+            "src": "196:52:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 15,
-        "src": "77:173:0"
+        "scope": 2698,
+        "src": "77:173:4"
       }
     ],
-    "src": "0:250:0"
+    "src": "0:250:4"
   },
   "legacyAST": {
     "absolutePath": "/Users/coinplug/BangGijin/moon-miner-contract/contracts/interface/IArea.sol",
     "exportedSymbols": {
       "IArea": [
-        14
+        2697
       ]
     },
-    "id": 15,
+    "id": 2698,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1,
+        "id": 2684,
         "literals": [
           "solidity",
           "^",
@@ -238,7 +238,7 @@
           ".24"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:0"
+        "src": "0:24:4"
       },
       {
         "baseContracts": [],
@@ -246,9 +246,9 @@
         "contractKind": "contract",
         "documentation": "@title IArea\n@dev interface for Area",
         "fullyImplemented": false,
-        "id": 14,
+        "id": 2697,
         "linearizedBaseContracts": [
-          14
+          2697
         ],
         "name": "IArea",
         "nodeType": "ContractDefinition",
@@ -256,7 +256,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 8,
+            "id": 2691,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -264,23 +264,23 @@
             "name": "getCurrentBeneficiaryInfo",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2,
+              "id": 2685,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "132:2:0"
+              "src": "132:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 7,
+              "id": 2690,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4,
+                  "id": 2687,
                   "name": "beneficiary",
                   "nodeType": "VariableDeclaration",
-                  "scope": 8,
-                  "src": "155:19:0",
+                  "scope": 2691,
+                  "src": "155:19:4",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -288,10 +288,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 3,
+                    "id": 2686,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "155:7:0",
+                    "src": "155:7:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -302,11 +302,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 6,
+                  "id": 2689,
                   "name": "ratio",
                   "nodeType": "VariableDeclaration",
-                  "scope": 8,
-                  "src": "176:13:0",
+                  "scope": 2691,
+                  "src": "176:13:4",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -314,10 +314,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 5,
+                    "id": 2688,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "176:7:0",
+                    "src": "176:7:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -327,10 +327,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "154:36:0"
+              "src": "154:36:4"
             },
-            "scope": 14,
-            "src": "98:93:0",
+            "scope": 2697,
+            "src": "98:93:4",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
@@ -338,7 +338,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 13,
+            "id": 2696,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -346,23 +346,23 @@
             "name": "moveCursor",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 9,
+              "id": 2692,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "215:2:0"
+              "src": "215:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 12,
+              "id": 2695,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 11,
+                  "id": 2694,
                   "name": "success",
                   "nodeType": "VariableDeclaration",
-                  "scope": 13,
-                  "src": "234:12:0",
+                  "scope": 2696,
+                  "src": "234:12:4",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -370,10 +370,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 10,
+                    "id": 2693,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "234:4:0",
+                    "src": "234:4:4",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -383,20 +383,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "233:14:0"
+              "src": "233:14:4"
             },
-            "scope": 14,
-            "src": "196:52:0",
+            "scope": 2697,
+            "src": "196:52:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 15,
-        "src": "77:173:0"
+        "scope": 2698,
+        "src": "77:173:4"
       }
     ],
-    "src": "0:250:0"
+    "src": "0:250:4"
   },
   "compiler": {
     "name": "solc",
@@ -404,5 +404,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-12-18T06:57:41.755Z"
+  "updatedAt": "2018-12-18T07:22:38.914Z"
 }
