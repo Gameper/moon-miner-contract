@@ -15,4 +15,3 @@ function moveCursor() public permissioned returns (bool success);
 ratio base : 10^18;
 ratio calculation : ratio / 10^18
 e.g. minting token * (ratio / 10^18) * (2/10) : minting token * (token holding rate) * (miner:holder rate)
-
