@@ -1,3 +1,4 @@
+require('babel-register')
 /*
  * NB: since truffle-hdwallet-provider 0.0.5 you must wrap HDWallet providers in a 
  * function when declaring them. Failure to do so will cause commands to hang. ex:
@@ -15,4 +16,24 @@
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
   // to customize your Truffle configuration!
+  networks: {
+    development: {
+      host: "localhost",
+      port: 8545,
+      network_id: "*", // Match any network id
+    }
+  },
+  solc: {
+    optimizer: {
+      enabled: true,
+      runs: 200
+    }
+  },
+  mocha: {
+    reporter: 'eth-gas-reporter',
+    reporterOptions: {
+      currency: 'USD',
+      gasPrice: 21
+    }
+  }
 };
