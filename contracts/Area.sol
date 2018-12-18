@@ -31,5 +31,7 @@ contract Area {
         // buringAmount = calculateSaleReturn(totalSupply, AreaBalance, AreaWeight, depositAmount)
         // batchBurn(burningAmount, msg.sender);
         // send balance to the msg.sender
+        // remove holder from linked list if token balance == 0 and move cursor if needed
+        // set time lock
     }
 }

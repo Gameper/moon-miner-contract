@@ -62,20 +62,20 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b50610149806100206000396000f3006080604052600436106100615763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663318d8439811461006657806345710074146100ab578063a6f2ae3a146100d4578063af9093cb146100dc575b600080fd5b34801561007257600080fd5b5061007b6100f1565b6040805173ffffffffffffffffffffffffffffffffffffffff909316835260208301919091528051918290030190f35b3480156100b757600080fd5b506100c0610113565b604080519115158252519081900360200190f35b6100c0610113565b3480156100e857600080fd5b506100c0610118565b736f0f5673d69b4608ac9be5887b2f71f20d0c358767016345785d8a00009091565b600090565b6001905600a165627a7a72305820314f9b6ae634ce95b3c61478fd1cb815a748ca266fb2e95f852fc1fb9d6d67e80029",
-  "deployedBytecode": "0x6080604052600436106100615763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663318d8439811461006657806345710074146100ab578063a6f2ae3a146100d4578063af9093cb146100dc575b600080fd5b34801561007257600080fd5b5061007b6100f1565b6040805173ffffffffffffffffffffffffffffffffffffffff909316835260208301919091528051918290030190f35b3480156100b757600080fd5b506100c0610113565b604080519115158252519081900360200190f35b6100c0610113565b3480156100e857600080fd5b506100c0610118565b736f0f5673d69b4608ac9be5887b2f71f20d0c358767016345785d8a00009091565b600090565b6001905600a165627a7a72305820314f9b6ae634ce95b3c61478fd1cb815a748ca266fb2e95f852fc1fb9d6d67e80029",
-  "sourceMap": "62:489:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;62:489:0;;;;;;;",
-  "deployedSourceMap": "62:489:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;164:168;;8:9:-1;5:2;;;30:1;27;20:12;5:2;164:168:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;488:61;;8:9:-1;5:2;;;30:1;27;20:12;5:2;488:61:0;;;;;;;;;;;;;;;;;;;;;;423:60;;;;338:79;;8:9:-1;5:2;;;30:1;27;20:12;5:2;338:79:0;;;;164:168;274:42;318:6;164:168;;:::o;488:61::-;520:12;488:61;:::o;338:79::-;406:4;338:79;:::o",
-  "source": "pragma solidity ^0.4.24;\n\n/**\n * @title Area\n * @dev Area\n */\ncontract Area {\n    \n    uint256 AreaWeight;\n    uint256 AreaBalance;\n    uint256 depositAmount;\n\n    function getCurrentBeneficiaryInfo() public view returns(address beneficiary, uint256 ratio){\n        return (0x6f0f5673d69b4608ac9be5887b2f71f20d0c3587, 10**17);\n    }\n\n    function moveCursor() public returns (bool success){\n        return true;\n    }\n\n    function buy() public payable returns (bool success){\n\n    }\n    function sell() public returns (bool success){\n        \n    }\n}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610149806100206000396000f3006080604052600436106100615763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663318d8439811461006657806345710074146100ab578063a6f2ae3a146100d4578063af9093cb146100dc575b600080fd5b34801561007257600080fd5b5061007b6100f1565b6040805173ffffffffffffffffffffffffffffffffffffffff909316835260208301919091528051918290030190f35b3480156100b757600080fd5b506100c0610113565b604080519115158252519081900360200190f35b6100c0610118565b3480156100e857600080fd5b506100c0610118565b736f0f5673d69b4608ac9be5887b2f71f20d0c358767016345785d8a00009091565b600090565b6001905600a165627a7a72305820670509a0713bc7db95286da7975358d2336d7ff78fbfeee3cdf9c80cb5b140a60029",
+  "deployedBytecode": "0x6080604052600436106100615763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663318d8439811461006657806345710074146100ab578063a6f2ae3a146100d4578063af9093cb146100dc575b600080fd5b34801561007257600080fd5b5061007b6100f1565b6040805173ffffffffffffffffffffffffffffffffffffffff909316835260208301919091528051918290030190f35b3480156100b757600080fd5b506100c0610113565b604080519115158252519081900360200190f35b6100c0610118565b3480156100e857600080fd5b506100c0610118565b736f0f5673d69b4608ac9be5887b2f71f20d0c358767016345785d8a00009091565b600090565b6001905600a165627a7a72305820670509a0713bc7db95286da7975358d2336d7ff78fbfeee3cdf9c80cb5b140a60029",
+  "sourceMap": "62:1093:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;62:1093:0;;;;;;;",
+  "deployedSourceMap": "62:1093:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;164:168;;8:9:-1;5:2;;;30:1;27;20:12;5:2;164:168:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;796:357;;8:9:-1;5:2;;;30:1;27;20:12;5:2;796:357:0;;;;;;;;;;;;;;;;;;;;;;423:368;;;;338:79;;8:9:-1;5:2;;;30:1;27;20:12;5:2;338:79:0;;;;164:168;274:42;318:6;164:168;;:::o;796:357::-;828:12;796:357;:::o;423:368::-;779:4;423:368;:::o",
+  "source": "pragma solidity ^0.4.24;\n\n/**\n * @title Area\n * @dev Area\n */\ncontract Area {\n    \n    uint256 AreaWeight;\n    uint256 AreaBalance;\n    uint256 depositAmount;\n\n    function getCurrentBeneficiaryInfo() public view returns(address beneficiary, uint256 ratio){\n        return (0x6f0f5673d69b4608ac9be5887b2f71f20d0c3587, 10**17);\n    }\n\n    function moveCursor() public returns (bool success){\n        return true;\n    }\n\n    function buy() public payable returns (bool success){\n        // mintingAmount = calculatePurchaseReturn(totalSupply, AreaBalance, AreaWeight, depositAmount)\n        // batchMint(mintingAmount, msg.sender, \"Area0Security\")\n        // add holder to linked list if not exist\n        // set time lock\n        // (balance added to the contract)\n        return true;\n\n    }\n    function sell() public returns (bool success){\n        // buringAmount = calculateSaleReturn(totalSupply, AreaBalance, AreaWeight, depositAmount)\n        // batchBurn(burningAmount, msg.sender);\n        // send balance to the msg.sender\n        // remove holder from linked list if token balance == 0 and move cursor if needed\n        // set time lock\n    }\n}",
   "sourcePath": "/Users/coinplug/BangGijin/moon-miner-contract/contracts/Area.sol",
   "ast": {
     "absolutePath": "/Users/coinplug/BangGijin/moon-miner-contract/contracts/Area.sol",
     "exportedSymbols": {
       "Area": [
-        42
+        44
       ]
     },
-    "id": 43,
+    "id": 45,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -95,9 +95,9 @@
         "contractKind": "contract",
         "documentation": "@title Area\n@dev Area",
         "fullyImplemented": true,
-        "id": 42,
+        "id": 44,
         "linearizedBaseContracts": [
-          42
+          44
         ],
         "name": "Area",
         "nodeType": "ContractDefinition",
@@ -107,7 +107,7 @@
             "id": 3,
             "name": "AreaWeight",
             "nodeType": "VariableDeclaration",
-            "scope": 42,
+            "scope": 44,
             "src": "87:18:0",
             "stateVariable": true,
             "storageLocation": "default",
@@ -133,7 +133,7 @@
             "id": 5,
             "name": "AreaBalance",
             "nodeType": "VariableDeclaration",
-            "scope": 42,
+            "scope": 44,
             "src": "111:19:0",
             "stateVariable": true,
             "storageLocation": "default",
@@ -159,7 +159,7 @@
             "id": 7,
             "name": "depositAmount",
             "nodeType": "VariableDeclaration",
-            "scope": 42,
+            "scope": 44,
             "src": "136:21:0",
             "stateVariable": true,
             "storageLocation": "default",
@@ -358,7 +358,7 @@
               ],
               "src": "220:36:0"
             },
-            "scope": 42,
+            "scope": 44,
             "src": "164:168:0",
             "stateMutability": "view",
             "superFunction": null,
@@ -444,7 +444,7 @@
               ],
               "src": "375:14:0"
             },
-            "scope": 42,
+            "scope": 44,
             "src": "338:79:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -452,13 +452,38 @@
           },
           {
             "body": {
-              "id": 34,
+              "id": 36,
               "nodeType": "Block",
-              "src": "475:8:0",
-              "statements": []
+              "src": "475:316:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "74727565",
+                    "id": 34,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "bool",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "779:4:0",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "value": "true"
+                  },
+                  "functionReturnParameters": 33,
+                  "id": 35,
+                  "nodeType": "Return",
+                  "src": "772:11:0"
+                }
+              ]
             },
             "documentation": null,
-            "id": 35,
+            "id": 37,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -481,7 +506,7 @@
                   "id": 32,
                   "name": "success",
                   "nodeType": "VariableDeclaration",
-                  "scope": 35,
+                  "scope": 37,
                   "src": "462:12:0",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -505,21 +530,21 @@
               ],
               "src": "461:14:0"
             },
-            "scope": 42,
-            "src": "423:60:0",
+            "scope": 44,
+            "src": "423:368:0",
             "stateMutability": "payable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 40,
+              "id": 42,
               "nodeType": "Block",
-              "src": "533:16:0",
+              "src": "841:312:0",
               "statements": []
             },
             "documentation": null,
-            "id": 41,
+            "id": 43,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -527,23 +552,23 @@
             "name": "sell",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 36,
+              "id": 38,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "501:2:0"
+              "src": "809:2:0"
             },
             "payable": false,
             "returnParameters": {
-              "id": 39,
+              "id": 41,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 38,
+                  "id": 40,
                   "name": "success",
                   "nodeType": "VariableDeclaration",
-                  "scope": 41,
-                  "src": "520:12:0",
+                  "scope": 43,
+                  "src": "828:12:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -551,10 +576,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 37,
+                    "id": 39,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "520:4:0",
+                    "src": "828:4:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -564,29 +589,29 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "519:14:0"
+              "src": "827:14:0"
             },
-            "scope": 42,
-            "src": "488:61:0",
+            "scope": 44,
+            "src": "796:357:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 43,
-        "src": "62:489:0"
+        "scope": 45,
+        "src": "62:1093:0"
       }
     ],
-    "src": "0:551:0"
+    "src": "0:1155:0"
   },
   "legacyAST": {
     "absolutePath": "/Users/coinplug/BangGijin/moon-miner-contract/contracts/Area.sol",
     "exportedSymbols": {
       "Area": [
-        42
+        44
       ]
     },
-    "id": 43,
+    "id": 45,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -606,9 +631,9 @@
         "contractKind": "contract",
         "documentation": "@title Area\n@dev Area",
         "fullyImplemented": true,
-        "id": 42,
+        "id": 44,
         "linearizedBaseContracts": [
-          42
+          44
         ],
         "name": "Area",
         "nodeType": "ContractDefinition",
@@ -618,7 +643,7 @@
             "id": 3,
             "name": "AreaWeight",
             "nodeType": "VariableDeclaration",
-            "scope": 42,
+            "scope": 44,
             "src": "87:18:0",
             "stateVariable": true,
             "storageLocation": "default",
@@ -644,7 +669,7 @@
             "id": 5,
             "name": "AreaBalance",
             "nodeType": "VariableDeclaration",
-            "scope": 42,
+            "scope": 44,
             "src": "111:19:0",
             "stateVariable": true,
             "storageLocation": "default",
@@ -670,7 +695,7 @@
             "id": 7,
             "name": "depositAmount",
             "nodeType": "VariableDeclaration",
-            "scope": 42,
+            "scope": 44,
             "src": "136:21:0",
             "stateVariable": true,
             "storageLocation": "default",
@@ -869,7 +894,7 @@
               ],
               "src": "220:36:0"
             },
-            "scope": 42,
+            "scope": 44,
             "src": "164:168:0",
             "stateMutability": "view",
             "superFunction": null,
@@ -955,7 +980,7 @@
               ],
               "src": "375:14:0"
             },
-            "scope": 42,
+            "scope": 44,
             "src": "338:79:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -963,13 +988,38 @@
           },
           {
             "body": {
-              "id": 34,
+              "id": 36,
               "nodeType": "Block",
-              "src": "475:8:0",
-              "statements": []
+              "src": "475:316:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "74727565",
+                    "id": 34,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "bool",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "779:4:0",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "value": "true"
+                  },
+                  "functionReturnParameters": 33,
+                  "id": 35,
+                  "nodeType": "Return",
+                  "src": "772:11:0"
+                }
+              ]
             },
             "documentation": null,
-            "id": 35,
+            "id": 37,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -992,7 +1042,7 @@
                   "id": 32,
                   "name": "success",
                   "nodeType": "VariableDeclaration",
-                  "scope": 35,
+                  "scope": 37,
                   "src": "462:12:0",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1016,21 +1066,21 @@
               ],
               "src": "461:14:0"
             },
-            "scope": 42,
-            "src": "423:60:0",
+            "scope": 44,
+            "src": "423:368:0",
             "stateMutability": "payable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 40,
+              "id": 42,
               "nodeType": "Block",
-              "src": "533:16:0",
+              "src": "841:312:0",
               "statements": []
             },
             "documentation": null,
-            "id": 41,
+            "id": 43,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -1038,23 +1088,23 @@
             "name": "sell",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 36,
+              "id": 38,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "501:2:0"
+              "src": "809:2:0"
             },
             "payable": false,
             "returnParameters": {
-              "id": 39,
+              "id": 41,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 38,
+                  "id": 40,
                   "name": "success",
                   "nodeType": "VariableDeclaration",
-                  "scope": 41,
-                  "src": "520:12:0",
+                  "scope": 43,
+                  "src": "828:12:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1062,10 +1112,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 37,
+                    "id": 39,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "520:4:0",
+                    "src": "828:4:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -1075,20 +1125,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "519:14:0"
+              "src": "827:14:0"
             },
-            "scope": 42,
-            "src": "488:61:0",
+            "scope": 44,
+            "src": "796:357:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 43,
-        "src": "62:489:0"
+        "scope": 45,
+        "src": "62:1093:0"
       }
     ],
-    "src": "0:551:0"
+    "src": "0:1155:0"
   },
   "compiler": {
     "name": "solc",
@@ -1096,5 +1146,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-12-18T07:42:37.605Z"
+  "updatedAt": "2018-12-18T08:27:13.018Z"
 }
