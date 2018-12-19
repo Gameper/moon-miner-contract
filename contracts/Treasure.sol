@@ -19,9 +19,6 @@ contract Treasure is ERC1155MixedFungible, Ownable {
         uint256 totalSupply;
     }
 
-
-    address public miningContract;
-
     uint256 nonce;
     mapping(uint256 => Resource) public resources;
     mapping (uint256 => address) public creators;
@@ -32,28 +29,19 @@ contract Treasure is ERC1155MixedFungible, Ownable {
         _;
     }
 
-    modifier onlyMiningContract {
-        require(msg.sender == miningContract);
-        _;
-    }
-
-    function setMiningContract(address _miningContract) external onlyOwner {
-        miningContract = _miningContract;
-    }
-
-    function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) external returns(uint256 _type) {
+    function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) external returns(uint256 _id) {
 
         // Store the type in the upper 128 bits
-        _type = (++nonce << 128);
+        _id = (++nonce << 128);
 
         // Set a flag if this is an NFI.
         if (_isNF)
-            _type = _type | TYPE_NF_BIT;
+            _id = _id | TYPE_NF_BIT;
 
         // This will allow restricted access to creators.
-        creators[_type] = msg.sender;
+        creators[_id] = msg.sender;
 
-        Resource storage resource = resources[_type];
+        Resource storage resource = resources[_id];
 
         resource.creator = msg.sender;
         resource.name = _name;
@@ -67,37 +55,33 @@ contract Treasure is ERC1155MixedFungible, Ownable {
             resource.totalSupply = _amount * 10 ** uint(_decimals);
         }
 
-        emit TransferSingle(msg.sender, 0x0, 0x0, _type, resource.totalSupply);
+        emit TransferSingle(msg.sender, 0x0, 0x0, _id, resource.totalSupply);
 
         if (bytes(_name).length > 0)
-            emit Name(_name, _type);
+            emit Name(_name, _id);
 
         if (bytes(_symbolOrUri).length > 0)
-            emit URI(_symbolOrUri, _type);
+            emit URI(_symbolOrUri, _id);
     }
 
-//    function mintFungible(uint256 _id, address[] _to, uint256[] _quantities) external creatorOnly(_id) {
-//        revert();
-//    }
-
-    function detectResource(uint256 _id, address _detector, uint256 _amount) public onlyMiningContract returns (bool) {
+    function detectResource(uint256 _id, address _detector, uint256 _amount) public creatorOnly(_id) returns (bool) {
         require(isFungible(_id));
         balances[_id][_detector] = balances[_id][_detector].add(_amount);
         return true;
     }
 
-    function mintNonFungible(uint256 _type, address[] _to) external creatorOnly(_type) {
+    function mintNonFungible(uint256 _id, address[] _to) external creatorOnly(_id) {
 
         // No need to check this is a nf type rather than an id since
         // creatorOnly() will only let a type pass through.
-        require(isNonFungible(_type));
+        require(isNonFungible(_id));
 
         // Index are 1-based.
-        uint256 index = maxIndex[_type] + 1;
+        uint256 index = maxIndex[_id] + 1;
 
         for (uint256 i = 0; i < _to.length; ++i) {
             address dst = _to[i];
-            uint256 id  = _type | index + i;
+            uint256 id  = _id | index + i;
 
             nfOwners[id] = dst;
 
@@ -111,7 +95,8 @@ contract Treasure is ERC1155MixedFungible, Ownable {
             }
         }
 
-        maxIndex[_type] = _to.length.add(maxIndex[_type]);
+        maxIndex[_id] = _to.length.add(maxIndex[_id]);
+        resources[_id].totalSupply = _to.length.add(resources[_id].totalSupply);
     }
 
     function mintNonFungibleSingle(uint256 _type, address _to) external creatorOnly(_type) {
@@ -145,28 +130,28 @@ contract Treasure is ERC1155MixedFungible, Ownable {
     /**
     * @dev Total number of tokens in existence
     */
-    function totalSupply(uint256 id) public view returns (uint256) {
-        return resources[id].totalSupply;
+    function totalSupply(uint256 _id) public view returns (uint256) {
+        return resources[_id].totalSupply;
     }
 
     /**
      * @return the name of the token.
      */
-    function name(uint256 id) public view returns (string) {
-        return resources[id].name;
+    function name(uint256 _id) public view returns (string) {
+        return resources[_id].name;
     }
 
     /**
      * @return the symbol of the token.
      */
-    function symbolOrUri(uint256 id) public view returns (string) {
-        return resources[id].symbolOrUri;
+    function symbolOrUri(uint256 _id) public view returns (string) {
+        return resources[_id].symbolOrUri;
     }
 
     /**
      * @return the number of decimals of the token.
      */
-    function decimals(uint256 id) public view returns (uint8) {
-        return resources[id].decimals;
+    function decimals(uint256 _id) public view returns (uint8) {
+        return resources[_id].decimals;
     }
 }
