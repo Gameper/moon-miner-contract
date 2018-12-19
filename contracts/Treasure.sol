@@ -98,35 +98,7 @@ contract Treasure is ERC1155MixedFungible, Ownable {
         maxIndex[_id] = _to.length.add(maxIndex[_id]);
         resources[_id].totalSupply = _to.length.add(resources[_id].totalSupply);
     }
-
-    function mintNonFungibleSingle(uint256 _type, address _to) external creatorOnly(_type) {
-
-        // No need to check this is a nf type rather than an id since
-        // creatorOnly() will only let a type pass through.
-        require(isNonFungible(_type));
-
-        // Index are 1-based.
-        uint256 index = maxIndex[_type] + 1;
-
-        for (uint256 i = 0; i < _to.length; ++i) {
-            address dst = _to[i];
-            uint256 id  = _type | index + i;
-
-            nfOwners[id] = dst;
-
-            // You could use base-type id to store NF type balances if you wish.
-            // balances[_type][dst] = quantity.add(balances[_type][dst]);
-
-            emit TransferSingle(msg.sender, 0x0, dst, id, 1);
-
-            if (dst.isContract()) {
-                require(IERC1155TokenReceiver(dst).onERC1155Received(msg.sender, msg.sender, id, 1, '') == ERC1155_RECEIVED);
-            }
-        }
-
-        maxIndex[_type] = _to.length.add(maxIndex[_type]);
-    }
-
+    
     /**
     * @dev Total number of tokens in existence
     */
