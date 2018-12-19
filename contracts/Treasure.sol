@@ -41,7 +41,7 @@ contract Treasure is ERC1155MixedFungible, Ownable {
         miningContract = _miningContract;
     }
 
-    function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) external onlyOwner returns(uint256 _type) {
+    function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) external returns(uint256 _type) {
 
         // Store the type in the upper 128 bits
         _type = (++nonce << 128);
