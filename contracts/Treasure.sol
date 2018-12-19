@@ -19,9 +19,10 @@ contract Treasure is ERC1155MixedFungible {
     }
 
     uint256 nonce;
-    mapping(uint256 => Resource) public resources;
+    mapping (uint256 => Resource) public resources;
     mapping (uint256 => address) public creators;
     mapping (uint256 => uint256) public maxIndex;
+    mapping (uint256 => mapping (address => uint256[])) public nfList; // id => address => NFTlist
 
     modifier creatorOnly(uint256 _id) {
         require(creators[_id] == msg.sender);
@@ -83,7 +84,9 @@ contract Treasure is ERC1155MixedFungible {
             uint256 id  = _id | index + i;
 
             nfOwners[id] = dst;
-
+            
+            nfList[_id][_to[i]].push(id);
+            
             // You could use base-type id to store NF type balances if you wish.
             // balances[_type][dst] = quantity.add(balances[_type][dst]);
 
@@ -97,7 +100,86 @@ contract Treasure is ERC1155MixedFungible {
         maxIndex[_id] = _to.length.add(maxIndex[_id]);
         resources[_id].totalSupply = _to.length.add(resources[_id].totalSupply);
     }
-    
+
+    function burnNonFungible(uint256 _id, address _to) external creatorOnly(_id) {
+        // _id = only NFT base id
+        // burn erc721 from first
+        require(nfList[_id][_to].length > 0, "not enough balance");
+
+        uint256 id = nfList[_id][_to][nfList[_id][_to].length-1];
+        nfOwners[id] = address(0);
+
+        nfList[_id][_to].length = nfList[_id][_to].length - 1;
+        resources[_id].totalSupply--;
+    }
+    // overide
+    function safeTransferFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data) external {
+
+        require(_to != 0);
+        require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
+
+        if (isNonFungible(_id)) {
+            require(nfOwners[_id] == _from);
+            nfOwners[_id] = _to;
+            
+            uint256 id = _id & 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000000000000000000000000000;
+
+            for(uint256 i=0;i<nfList[id][_from].length;i++){
+                if(nfList[id][_from][i] == _id) {
+                    nfList[id][_from][i] = nfList[id][_from][nfList[id][_from].length-1];
+                    nfList[id][_from].length = nfList[id][_from].length - 1;
+                    break;
+                }
+            }
+        } else {
+            balances[_id][_from] = balances[_id][_from].sub(_value);
+            balances[_id][_to]   = balances[_id][_to].add(_value);
+        }
+
+        emit TransferSingle(msg.sender, _from, _to, _id, _value);
+
+        if (_to.isContract()) {
+            require(IERC1155TokenReceiver(_to).onERC1155Received(msg.sender, _from, _id, _value, _data) == ERC1155_RECEIVED);
+        }
+    }
+
+    // overide
+    function safeBatchTransferFrom(address _from, address _to, uint256[] _ids, uint256[] _values, bytes _data) external {
+
+        require(_to != 0, "cannot send to zero address");
+        require(_ids.length == _values.length, "Array length must match");
+
+        // Only supporting a global operator approval allows us to do only 1 check and not to touch storage to handle allowances.
+        require(_from == msg.sender || operatorApproval[_from][msg.sender] == true, "Need operator approval for 3rd party transfers.");
+
+        for (uint256 i = 0; i < _ids.length; ++i) {
+            // Cache value to local variable to reduce read costs.
+            uint256 id = _ids[i];
+            uint256 value = _values[i];
+
+            if (isNonFungible(id)) {
+                revert("Batch Transfer for Non-Fungible not provided");
+                require(nfOwners[id] == _from);
+                nfOwners[id] = _to;
+            } else {
+                balances[id][_from] = balances[id][_from].sub(value);
+                balances[id][_to]   = value.add(balances[id][_to]);
+            }
+        }
+
+        emit TransferBatch(msg.sender, _from, _to, _ids, _values);
+
+        if (_to.isContract()) {
+            require(IERC1155TokenReceiver(_to).onERC1155BatchReceived(msg.sender, _from, _ids, _values, _data) == ERC1155_RECEIVED);
+        }
+    }
+
+    function balanceOf(address _owner, uint256 _id) external view returns (uint256) {
+        if (isNonFungibleItem(_id))
+            return nfList[_id][_owner].length;
+        return balances[_id][_owner];
+    }
+
     /**
     * @dev Total number of tokens in existence
     */
