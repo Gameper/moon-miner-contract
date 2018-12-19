@@ -3,6 +3,7 @@ pragma solidity ^0.4.24;
 import './bancor/BancorFormula.sol';
 import './RegistryUser.sol';
 import './ERC1155/IERC1155.sol';
+import './utils/LibCLL.sol';
 
 /**
  * @title Area
@@ -16,6 +17,10 @@ contract Area is BancorFormula, RegistryUser{
     uint256 private tokenId = 10;
 
     mapping(address => uint256) private timelock;
+    using LibCLLu for LibCLLu.CLL;
+
+    LibCLLu.CLL holderCLL;
+    mapping (uint256 => address) holderIndex;
     constructor() public {
         thisDomain = "Area";
     }
