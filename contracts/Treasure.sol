@@ -1,13 +1,12 @@
 pragma solidity ^0.4.24;
 
 import "./ERC1155/ERC1155MixedFungible.sol";
-import "./openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 /**
  * @title Treasure
  * @dev Treasure Contract
  */
-contract Treasure is ERC1155MixedFungible, Ownable {
+contract Treasure is ERC1155MixedFungible {
 
     using SafeMath for uint256;
 
