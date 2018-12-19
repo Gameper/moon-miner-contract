@@ -82,7 +82,7 @@ contract Mining is IMining, RegistryUser {
         require(totalTreasureMined <= miningInfo.maxSupplyForEra);
 
         // divide treasure between miner & holder
-        address memory holder;
+        address holder;
         uint256 ratio;
         (holder, ratio) = area.getCurrentBeneficiaryInfo();
         uint256 holderTreasureAmount = minedTreasureAmount.div(5).div(uint256(10**18).div(ratio));
@@ -99,7 +99,8 @@ contract Mining is IMining, RegistryUser {
         miningInfo.lastRewardEthBlockNumber = block.number;
 
         // start new epoch
-        _startNewMiningEpoch(miningInfo, minedTreasureAmount, treasure.totalSupply(_id));
+        uint256 totalSupply = treasure.totalSupply(_id);
+        _startNewMiningEpoch(miningInfo, minedTreasureAmount, totalSupply);
 
         // announce mining
         emit Mine(msg.sender, _id, minedTreasureAmount, miningInfo.epochCount, miningInfo.challengeNumber);

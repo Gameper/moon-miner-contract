@@ -53,6 +53,7 @@ contract Treasure is ERC1155MixedFungible {
         } else {
             resource.decimals = _decimals;
             resource.totalSupply = _amount * 10 ** uint(_decimals);
+            balances[_id][msg.sender] = resource.totalSupply;
         }
 
         emit TransferSingle(msg.sender, 0x0, 0x0, _id, resource.totalSupply);
@@ -66,6 +67,9 @@ contract Treasure is ERC1155MixedFungible {
 
     function detectResource(uint256 _id, address _detector, uint256 _amount) public creatorOnly(_id) returns (bool) {
         require(isFungible(_id));
+        require(_amount <= balances[_id][msg.sender]);
+        require(_detector != address(0));
+        balances[_id][msg.sender] = balances[_id][msg.sender].sub(_amount);
         balances[_id][_detector] = balances[_id][_detector].add(_amount);
         return true;
     }
