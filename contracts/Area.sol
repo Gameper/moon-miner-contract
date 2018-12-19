@@ -4,6 +4,7 @@ import './bancor/BancorFormula.sol';
 import './RegistryUser.sol';
 import './ERC1155/IERC1155.sol';
 import './utils/LibCLL.sol';
+import './Treasure.sol';
 
 /**
  * @title Area
@@ -21,8 +22,14 @@ contract Area is BancorFormula, RegistryUser{
 
     LibCLLu.CLL holderCLL;
     mapping (uint256 => address) holderIndex;
+
     constructor() public {
         thisDomain = "Area";
+        
+    }
+    function initialize(Treasure _addr) public {
+        // function create(string _name, string _symbol, uint8 _decimals, uint64 _amount, string _uri, bool _isNF) external onlyOwner returns(uint256 _type)
+        tokenId = _addr.create("AreaNFT", "AreaNFT", 0, 1000, "AreaNFT", true);
     }
     function getCurrentBeneficiaryInfo() public view returns(address beneficiary, uint256 ratio){
         return (0x6f0f5673d69b4608ac9be5887b2f71f20d0c3587, 10**17);
