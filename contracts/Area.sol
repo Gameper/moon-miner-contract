@@ -92,7 +92,7 @@ contract Area is BancorFormula, RegistryUser{
         msg.sender.transfer(returnAmount);
 
         // remove holder from linked list if token balance == 0 and move cursor if needed
-        if(treasure.balanceOf(bene, tokenId) == 0) {
+        if(treasure.balanceOf(msg.sender, tokenId) == 0) {
             
         }
         // set time lock
