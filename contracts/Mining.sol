@@ -1,28 +1,28 @@
 pragma solidity ^0.4.24;
 
-//import "./openzeppelin-solidity/contracts/math/Math.sol";
+import "./openzeppelin-solidity/contracts/math/Math.sol";
 //import "./openzeppelin-solidity/contracts/math/SafeMath.sol";
-//import "./interface/IMining.sol";
-//import "./RegistryUser.sol";
-//import "./Treasure.sol";
+import "./interface/IMining.sol";
+import "./RegistryUser.sol";
+import "./Treasure.sol";
 
-contract Mining {
+contract Mining is IMining {
 //    using SafeMath for uint256;
-////    using Math for uint256;
-//
-//    mapping (uint256 => Treasure) resources;
-//
-//    constructor() {
-//
-//    }
-//
-//    function() public payable {
-//        revert();
-//    }
+    using Math for uint256;
 
-//    function setTreasure(uint256 _id, address _treasure) public onlyOwner {
-//
-//    }
+    mapping (uint256 => Treasure) resources;
+
+    constructor() public {
+
+    }
+
+    function() public payable {
+        revert();
+    }
+
+    function createResource() public {
+
+    }
 
 //    function mine(uint256 nonce, bytes32 challenge_digest) public returns (bool) {
 //
