@@ -1,29 +1,29 @@
 pragma solidity ^0.4.24;
 
 import "./ERC1155/ERC1155MixedFungible.sol";
-import "./openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "./openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 /**
  * @title Treasure
  * @dev Treasure Contract
  */
-contract Treasure is ERC1155MixedFungible {
+contract Treasure is ERC1155MixedFungible, Ownable {
 
     using SafeMath for uint256;
 
     struct Resource {
         address creator;
         string name;
-        string symbol;
+        string symbolOrUri;
         uint8 decimals;
         uint256 totalSupply;
     }
 
-    mapping(uint256 => Resource) public resources;
 
     address public miningContract;
 
     uint256 nonce;
+    mapping(uint256 => Resource) public resources;
     mapping (uint256 => address) public creators;
     mapping (uint256 => uint256) public maxIndex;
 
@@ -41,7 +41,7 @@ contract Treasure is ERC1155MixedFungible {
         miningContract = _miningContract;
     }
 
-    function create(string _name, string _symbol, uint8 _decimals, uint64 _amount, string _uri, bool _isNF) external onlyOwner returns(uint256 _type) {
+    function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) external onlyOwner returns(uint256 _type) {
 
         // Store the type in the upper 128 bits
         _type = (++nonce << 128);
@@ -57,13 +57,12 @@ contract Treasure is ERC1155MixedFungible {
 
         resource.creator = msg.sender;
         resource.name = _name;
+        resource.symbolOrUri = _symbolOrUri;
 
         if(_isNF) {
-            resource.symbol = "";
             resource.decimals = 0;
             resource.totalSupply = _amount;
         } else {
-            resource.symbol = _symbol;
             resource.decimals = _decimals;
             resource.totalSupply = _amount * 10 ** uint(_decimals);
         }
@@ -73,8 +72,8 @@ contract Treasure is ERC1155MixedFungible {
         if (bytes(_name).length > 0)
             emit Name(_name, _type);
 
-        if (bytes(_uri).length > 0)
-            emit URI(_uri, _type);
+        if (bytes(_symbolOrUri).length > 0)
+            emit URI(_symbolOrUri, _type);
     }
 
 //    function mintFungible(uint256 _id, address[] _to, uint256[] _quantities) external creatorOnly(_id) {
@@ -132,8 +131,8 @@ contract Treasure is ERC1155MixedFungible {
     /**
      * @return the symbol of the token.
      */
-    function symbol(uint256 id) public view returns (string) {
-        return resources[id].symbol;
+    function symbolOrUri(uint256 id) public view returns (string) {
+        return resources[id].symbolOrUri;
     }
 
     /**
