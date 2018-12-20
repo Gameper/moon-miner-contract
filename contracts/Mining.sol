@@ -238,7 +238,7 @@ contract Mining is IMining, RegistryUser {
         require(_challenge_digest == digestByKeccak256 || _challenge_digest == digestBySha256);
 
         // check difficulty
-        require(uint256(_challenge_digest) < _testTarget);
+        // require(uint256(_challenge_digest) < _testTarget);
 
         return true;
     }
