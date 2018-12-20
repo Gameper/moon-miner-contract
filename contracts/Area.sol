@@ -28,6 +28,9 @@ contract Area is BancorFormula, RegistryUser{
     mapping (uint256 => address) internal holderIndex;
     mapping (address => uint256) internal isholderIndexExists;
 
+    event Buy(address indexed buyer, uint256 deposit, uint256 buyTokenAmount);
+    event Sell(address indexed seller, uint256 returnDepoist, uint256 sellTokenAmount);
+
     constructor() public {
         thisDomain = "Area";
     }
@@ -127,6 +130,8 @@ contract Area is BancorFormula, RegistryUser{
         // balance added to the contract
         AreaBalance += msg.value;
         
+        emit Buy(msg.sender, msg.value, mintingAmount);
+        
         return true;
 
     }
@@ -156,6 +161,8 @@ contract Area is BancorFormula, RegistryUser{
 
         // send balance to the msg.sender
         msg.sender.transfer(returnAmount);
+
+        emit Sell(msg.sender, returnAmount, _sellAmount);
         
     }
 }
