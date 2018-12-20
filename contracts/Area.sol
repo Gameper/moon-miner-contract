@@ -88,14 +88,19 @@ contract Area is BancorFormula, RegistryUser{
         uint256 returnAmount = calculateSaleReturn(totalSupply, AreaBalance, AreaWeight, _sellAmount);
         // batchBurn(burningAmount, msg.sender);
         
-        // send balance to the msg.sender
-        msg.sender.transfer(returnAmount);
-
         // remove holder from linked list if token balance == 0 and move cursor if needed
         if(treasure.balanceOf(msg.sender, tokenId) == 0) {
-            
+            if(currentBeneficiaryIndex == isholderIndexExists[msg.sender]){
+                moveCursor();
+            }
+            holderCLL.remove(isholderIndexExists[msg.sender]);
         }
         // set time lock
         timelock[msg.sender] = now;
+
+        // send balance to the msg.sender
+        msg.sender.transfer(returnAmount);
+
+        
     }
 }
