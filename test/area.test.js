@@ -9,8 +9,11 @@ const Area = artifacts.require('Area.sol')
 const Registry = artifacts.require('Registry.sol')
 const Treasure = artifacts.require('Treasure.sol')
 
-contract('Area', function ([deployer, user1, user2, holder1, holder2, holder3]) {
+contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
     let registry, area, treasure
+    let ether1 = 10 ** 18, ether01 = 10 ** 17
+    let totalSupply, AreaBalance, AreaWeight;
+    let NFTid;
 
     beforeEach(async () => {
         area = await Area.new()
@@ -25,6 +28,11 @@ contract('Area', function ([deployer, user1, user2, holder1, holder2, holder3]) 
         await treasure.setRegistry(registry.address)
 
         await area.initialize();
+        await area.deposit({value:ether1*10})
+
+        totalSupply = 1000;
+        AreaBalance = ether1 * 10;
+        AreaWeight = 1000000;
         
     });
     describe('Owner ', function () {
@@ -33,7 +41,18 @@ contract('Area', function ([deployer, user1, user2, holder1, holder2, holder3]) 
         });
 
         it('Area can return address', async ()=> {
-            assert.equal(1,1)
+            let estimatedReturn = await area.calculatePurchaseReturn(totalSupply, AreaBalance, AreaWeight, ether01);
+            console.log(`estimated Return : ${estimatedReturn}`);
+            
+            await area.buy({from:holder1, value:ether01})
+            let list1addr = await area.getHolderIndex(1);
+            NFTid = await area.tokenId();
+            console.log(`list 1 addr : ${list1addr}`)
+            console.log(`token id : ${NFTid}`)
+
+            let holder1NFTbalance = await treasure.balanceOf(holder1, NFTid);
+            
+            console.log(`holder 1 balance : ${holder1NFTbalance}`)
             
         });
         

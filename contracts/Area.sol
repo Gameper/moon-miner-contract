@@ -13,10 +13,10 @@ import './interface/ITreasure.sol';
  */
 contract Area is BancorFormula, RegistryUser{
     
-    uint32 public AreaWeight = 1000;
+    uint32 public AreaWeight = 1000000;
     uint256 public AreaBalance;
     uint256 public depositAmount;
-    uint256 public tokenId = 10;
+    uint256 public tokenId = 0;
 
     uint256 public currentBeneficiaryIndex;
 
@@ -25,11 +25,26 @@ contract Area is BancorFormula, RegistryUser{
 
     LibCLLu.CLL holderCLL;
     uint256 holderNonce = 1;
-    mapping (uint256 => address) holderIndex;
-    mapping (address => uint256) isholderIndexExists;
+    mapping (uint256 => address) internal holderIndex;
+    mapping (address => uint256) internal isholderIndexExists;
 
     constructor() public {
         thisDomain = "Area";
+    }
+
+    function deposit() public payable {
+        AreaBalance += msg.value;
+    }
+    function getHolderIndex(uint256 _index) public view returns(address holder) {
+        return holderIndex[_index];
+    }
+
+    function getIsholderIndexExists(address _addr) public view returns(uint256 index) {
+        return isholderIndexExists[_addr];
+    }
+
+    function getNode(uint256 _n) public view returns(uint256[2]){
+        return holderCLL.getNode(_n);
     }
 
     function initialize() public {
@@ -95,6 +110,7 @@ contract Area is BancorFormula, RegistryUser{
         
         // batchMint(mintingAmount, msg.sender, "Area0Security")
         // temporaily function mintNonFungible(uint256 _type, address[] _to) external creatorOnly(_type)
+        
         address[] memory getter = new address[](1);
         getter[0] = msg.sender;
         
