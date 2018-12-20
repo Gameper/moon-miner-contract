@@ -89,7 +89,20 @@ contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
         })
 
         it.only('Area - Mining - Treasure basic work', async ()=> { 
+            // Buy NFT from Area
+            let estimatedReturn = await area.calculatePurchaseReturn(totalSupply, AreaBalance, AreaWeight, ether01);
+            console.log(`estimated Return : ${estimatedReturn}`);
             
+            await area.buy({from:holder1, value:ether01})
+            let list1addr = await area.getHolderIndex(1);
+            NFTid = await area.tokenId();
+            console.log(`list 1 addr : ${list1addr}`)
+            console.log(`token id : ${NFTid}`)
+
+            let holder1NFTbalance = await treasure.balanceOf(holder1, NFTid);
+
+            console.log(`holder 1 NFT balance : ${holder1NFTbalance}`)
+
             await mining.createResource("mineral", "Ruby", 18, 1000);
             FTid = await mining.tokenId();
             let nonce = 0;
@@ -99,13 +112,19 @@ contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
 
             //nonce need to be loop if fail
             await mining.mine(FTid, nonce, digest);
+
+
+            // NFT Holder get reward when mining success
+
+            let holder1FTbalance = await treasure.balanceOf(holder1, FTid);
+            console.log(`holder 1 mineral balance : ${holder1FTbalance}`)
+
+            let minerbalance = await treasure.balanceOf(deployer, FTid);
+            console.log(`miner mineral balance : ${minerbalance}`)
         })
         
         
         
-        
-        
-        // NFT Holder get reward when mining success
 
         
 

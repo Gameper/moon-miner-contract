@@ -18,7 +18,7 @@ contract Area is BancorFormula, RegistryUser{
     uint256 public depositAmount;
     uint256 public tokenId = 0;
 
-    uint256 public currentBeneficiaryIndex;
+    uint256 public currentBeneficiaryIndex = 1;
 
     mapping(address => uint256) private timelock;
     using LibCLLu for LibCLLu.CLL;
