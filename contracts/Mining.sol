@@ -11,6 +11,8 @@ contract Mining is IMining, RegistryUser {
     using SafeMath for uint256;
     using Math for uint256;
 
+    uint256 public tokenId;
+
     struct MiningInfo {
         uint256 blocksPerReAdjustment;
         uint8 initialReward;
@@ -48,6 +50,7 @@ contract Mining is IMining, RegistryUser {
         ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
         uint id = treasure.create(_name, _symbol, _decimals, _amount, false);
         uint256 totalSupply = _amount * 10 ** uint(_decimals);
+        tokenId = id;
 //        locked[id] = true;
 
         MiningInfo storage miningInfo = miningInfos[id];
