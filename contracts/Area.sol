@@ -23,7 +23,8 @@ contract Area is BancorFormula, RegistryUser{
     using LibCLLu for LibCLLu.CLL;
 
     LibCLLu.CLL holderCLL;
-    address[] holderIndex;
+    uint256 holderNonce = 1;
+    mapping (uint256 => address) holderIndex;
     mapping (address => uint256) isholderIndexExists;
 
     constructor() public {
@@ -31,7 +32,7 @@ contract Area is BancorFormula, RegistryUser{
     }
     function initialize() public {
         // function create(string _name, string _symbol, uint8 _decimals, uint64 _amount, string _uri, bool _isNF) external onlyOwner returns(uint256 _type)
-        tokenId = Treasure(registry.getAddressOf("Treasure")).create("AreaNFT", "AreaNFT", 0, 1000, true);
+        tokenId = Treasure(registry.getAddressOf("Treasure")).create("Area0", "Area", 0, 1000, true);
         // function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) external onlyOwner returns(uint256 _type) {
     }
     function getCurrentBeneficiaryInfo() public view returns(address beneficiary, uint256 ratio){
@@ -41,10 +42,46 @@ contract Area is BancorFormula, RegistryUser{
     }
 
     function moveCursor() public returns (bool success){
-        currentBeneficiaryIndex = holderCLL.step(currentBeneficiaryIndex, true);
+        currentBeneficiaryIndex = holderCLL.step(currentBeneficiaryIndex, false);
         return true;
     }
 
+    function modifyHolderAfterTrasnfer(address _from, uint256 _fromBalance, address _to, uint256 _toBalance) public permissioned returns (bool){
+        
+        //_to has at least 1 NFT
+        addHolder(_to);
+
+        if(_fromBalance == 0) {
+            removeHolder(_from);
+        }
+    }
+
+    function addHolder(address _holder) internal {
+        if(isholderIndexExists[msg.sender] == 0){
+            // pointer add
+            holderIndex[holderNonce] = msg.sender;
+            isholderIndexExists[msg.sender] = holderNonce;
+
+            // push
+            holderCLL.push(holderNonce, false);
+            
+            holderNonce++;
+        }
+    }
+
+    function removeHolder(address _holder) internal {
+        // remove holder from linked list if token balance == 0 and move cursor if needed
+        
+        if(currentBeneficiaryIndex == isholderIndexExists[msg.sender]){
+            moveCursor();
+        }
+
+        holderCLL.remove(isholderIndexExists[msg.sender]);
+        uint256 index = isholderIndexExists[msg.sender];
+        delete isholderIndexExists[msg.sender];
+        delete holderIndex[index];
+
+    }
 
     function buy() public payable returns (bool success){
         Treasure treasure = Treasure(registry.getAddressOf("Treasure"));
@@ -63,10 +100,7 @@ contract Area is BancorFormula, RegistryUser{
         }
 
         // add holder to linked list if not exist
-        if(isholderIndexExists[msg.sender] == 0){
-            holderIndex.push(msg.sender);
-            holderCLL.push(holderIndex.length-1, true);
-        }
+        addHolder(msg.sender);
         
         // set time lock
         timelock[msg.sender] = now;
@@ -77,6 +111,7 @@ contract Area is BancorFormula, RegistryUser{
         return true;
 
     }
+
     function sell(uint256 _sellAmount) public returns (bool success){
         
         // sell need to be waited at least 1 hour after buy
@@ -86,15 +121,16 @@ contract Area is BancorFormula, RegistryUser{
         uint256 totalSupply = treasure.totalSupply(tokenId);
 
         uint256 returnAmount = calculateSaleReturn(totalSupply, AreaBalance, AreaWeight, _sellAmount);
-        // batchBurn(burningAmount, msg.sender);
         
-        // remove holder from linked list if token balance == 0 and move cursor if needed
-        if(treasure.balanceOf(msg.sender, tokenId) == 0) {
-            if(currentBeneficiaryIndex == isholderIndexExists[msg.sender]){
-                moveCursor();
-            }
-            holderCLL.remove(isholderIndexExists[msg.sender]);
+        // batchBurn(burningAmount, msg.sender);
+        for(uint256 i=0;i<returnAmount;i++) {
+            treasure.burnNonFungible(tokenId, msg.sender);
         }
+        // remove holder if balance == 0
+        if(treasure.balanceOf(msg.sender, tokenId) == 0) {
+            removeHolder(msg.sender);
+        }
+
         // set time lock
         timelock[msg.sender] = now;
 

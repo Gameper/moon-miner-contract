@@ -1,12 +1,14 @@
 pragma solidity ^0.4.24;
 
 import "./ERC1155/ERC1155MixedFungible.sol";
+import "./interface/IArea.sol";
+import "./RegistryUser.sol";
 
 /**
  * @title Treasure
  * @dev Treasure Contract
  */
-contract Treasure is ERC1155MixedFungible {
+contract Treasure is ERC1155MixedFungible, RegistryUser {
 
     using SafeMath for uint256;
 
@@ -16,6 +18,7 @@ contract Treasure is ERC1155MixedFungible {
         string symbolOrUri;
         uint8 decimals;
         uint256 totalSupply;
+        address area;
     }
 
     uint256 nonce;
@@ -63,6 +66,10 @@ contract Treasure is ERC1155MixedFungible {
 
         if (bytes(_symbolOrUri).length > 0)
             emit URI(_symbolOrUri, _id);
+        
+        if (keccak256(_symbolOrUri) == keccak256("Area")){
+            resource.area = msg.sender;
+        }
     }
 
     function detectResource(uint256 _id, address _detector, uint256 _amount) public creatorOnly(_id) returns (bool) {
@@ -107,15 +114,16 @@ contract Treasure is ERC1155MixedFungible {
 
     function burnNonFungible(uint256 _id, address _to) external creatorOnly(_id) {
         // _id = only NFT base id
-        // burn erc721 from first
+        // burn erc721 from last
         require(nfList[_id][_to].length > 0, "not enough balance");
 
         uint256 id = nfList[_id][_to][nfList[_id][_to].length-1];
-        nfOwners[id] = address(0);
+        nfOwners[id] = address(0); // delete nfOwners[id];
 
         nfList[_id][_to].length = nfList[_id][_to].length - 1;
         resources[_id].totalSupply--;
     }
+
     // overide
     function safeTransferFrom(address _from, address _to, uint256 _id, uint256 _value, bytes _data) external {
 
@@ -126,8 +134,8 @@ contract Treasure is ERC1155MixedFungible {
             require(nfOwners[_id] == _from);
             nfOwners[_id] = _to;
             
-            uint256 id = _id & 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000000000000000000000000000;
-
+            // uint256 id = _id & 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000000000000000000000000000;
+            uint256 id = getNonFungibleBaseType(_id);
             for(uint256 i=0;i<nfList[id][_from].length;i++){
                 if(nfList[id][_from][i] == _id) {
                     nfList[id][_from][i] = nfList[id][_from][nfList[id][_from].length-1];
@@ -135,6 +143,13 @@ contract Treasure is ERC1155MixedFungible {
                     break;
                 }
             }
+            
+            // Area Token should change the beneficiary list
+            if(resources[id].area != address(0)) {
+                IArea area = IArea(resources[id].area);
+                area.modifyHolderAfterTrasnfer(_from, nfList[id][_from].length, _to, nfList[id][_to].length);
+            }
+
         } else {
             balances[_id][_from] = balances[_id][_from].sub(_value);
             balances[_id][_to]   = balances[_id][_to].add(_value);
