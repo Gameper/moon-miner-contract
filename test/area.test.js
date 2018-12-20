@@ -40,7 +40,8 @@ contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
 
         });
 
-        it('Area can return address', async ()=> {
+        it('Area can buy and sell', async ()=> {
+            // Buy NFT from Area
             let estimatedReturn = await area.calculatePurchaseReturn(totalSupply, AreaBalance, AreaWeight, ether01);
             console.log(`estimated Return : ${estimatedReturn}`);
             
@@ -51,14 +52,24 @@ contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
             console.log(`token id : ${NFTid}`)
 
             let holder1NFTbalance = await treasure.balanceOf(holder1, NFTid);
-            
+
             console.log(`holder 1 balance : ${holder1NFTbalance}`)
             
+            // Sell NFT from Area
+            let estimatedEthReturn = await area.calculateSaleReturn(totalSupply+10, AreaBalance+ether01, AreaWeight, 10);
+            console.log(`estimated ETH Return : ${estimatedEthReturn}`);
+            await area.sell(10, {from:holder1})
+            list1addr = await area.getHolderIndex(1);
+            console.log(`list 1 addr : ${list1addr}`)
+
+            holder1NFTbalance = await treasure.balanceOf(holder1, NFTid);
+            console.log(`holder 1 balance : ${holder1NFTbalance}`)
+
         });
         
-        // Buy NFT from Area
         
-        // Sell NFT from Area
+        
+        
         
         // NFT Holder get reward when mining success
 

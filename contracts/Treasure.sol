@@ -196,7 +196,7 @@ contract Treasure is ERC1155MixedFungible, RegistryUser {
     }
 
     function balanceOf(address _owner, uint256 _id) external view returns (uint256) {
-        if (isNonFungibleItem(_id))
+        if (isNonFungible(_id))
             return nfList[_id][_owner].length;
         return balances[_id][_owner];
     }

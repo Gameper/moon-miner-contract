@@ -134,17 +134,18 @@ contract Area is BancorFormula, RegistryUser{
     function sell(uint256 _sellAmount) public returns (bool success){
         
         // sell need to be waited at least 1 hour after buy
-        require(now - timelock[msg.sender] > 3600, "You should wait"); 
+        // require(now - timelock[msg.sender] > 3600, "You should wait"); 
 
         Treasure treasure = Treasure(registry.getAddressOf("Treasure"));
         uint256 totalSupply = treasure.totalSupply(tokenId);
 
         uint256 returnAmount = calculateSaleReturn(totalSupply, AreaBalance, AreaWeight, _sellAmount);
         
-        // batchBurn(burningAmount, msg.sender);
-        for(uint256 i=0;i<returnAmount;i++) {
+        // // batchBurn(burningAmount, msg.sender);
+        for(uint256 i=0;i<_sellAmount;i++) {
             treasure.burnNonFungible(tokenId, msg.sender);
         }
+
         // remove holder if balance == 0
         if(treasure.balanceOf(msg.sender, tokenId) == 0) {
             removeHolder(msg.sender);
@@ -155,7 +156,6 @@ contract Area is BancorFormula, RegistryUser{
 
         // send balance to the msg.sender
         msg.sender.transfer(returnAmount);
-
         
     }
 }
