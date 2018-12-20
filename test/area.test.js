@@ -1,3 +1,5 @@
+
+
 import assertRevert from './helpers/assertRevert'
 import EVMRevert from './helpers/EVMRevert'
 
@@ -8,24 +10,30 @@ require('chai').use(require('chai-as-promised')).use(require('chai-bignumber')(B
 const Area = artifacts.require('Area.sol')
 const Registry = artifacts.require('Registry.sol')
 const Treasure = artifacts.require('Treasure.sol')
+const Mining = artifacts.require('Mining.sol')
 
 contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
-    let registry, area, treasure
+    let registry, area, treasure, mining
     let ether1 = 10 ** 18, ether01 = 10 ** 17
     let totalSupply, AreaBalance, AreaWeight;
     let NFTid;
+    let FTid;
 
     beforeEach(async () => {
         area = await Area.new()
         registry = await Registry.new()
         treasure = await Treasure.new()
+        mining = await Mining.new()
         
         await registry.setDomain("Area", area.address)
         await registry.setDomain("Treasure", treasure.address)
         await registry.setPermission("Area", treasure.address, "true")
         await registry.setPermission("Treasure", area.address, "true")
+        await registry.setPermission("Mining", mining.address, "true")
+        
         await area.setRegistry(registry.address)
         await treasure.setRegistry(registry.address)
+        await mining.setRegistry(registry.address)
 
         await area.initialize();
         await area.deposit({value:ether1*10})
@@ -66,6 +74,18 @@ contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
             console.log(`holder 1 balance : ${holder1NFTbalance}`)
 
         });
+
+        it.only('Mining can deployed', async ()=> { 
+            
+            await mining.createResource("mineral", "Ruby", 18, 1000);
+            FTid = await mining.tokenId();
+            let nonce = 0;
+            let chDigest = "Hello";
+            let chanllengeNumber = await mining.getChallengeNumber(FTid);
+            let digest = await mining.getMiningDigestByKeccak256(FTid, nonce, chDigest, chanllengeNumber)
+
+            await mining.mine(FTid, nonce, digest);
+        })
         
         
         
@@ -78,3 +98,4 @@ contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
     })
 
 });
+
