@@ -5,6 +5,7 @@ import './RegistryUser.sol';
 import './ERC1155/IERC1155.sol';
 import './utils/LibCLL.sol';
 import './Treasure.sol';
+import './interface/ITreasure.sol';
 
 /**
  * @title Area
@@ -12,10 +13,10 @@ import './Treasure.sol';
  */
 contract Area is BancorFormula, RegistryUser{
     
-    uint32 private AreaWeight = 1000;
-    uint256 private AreaBalance;
-    uint256 private depositAmount;
-    uint256 private tokenId = 10;
+    uint32 public AreaWeight = 1000;
+    uint256 public AreaBalance;
+    uint256 public depositAmount;
+    uint256 public tokenId = 10;
 
     uint256 public currentBeneficiaryIndex;
 
@@ -30,9 +31,11 @@ contract Area is BancorFormula, RegistryUser{
     constructor() public {
         thisDomain = "Area";
     }
+
     function initialize() public {
         // function create(string _name, string _symbol, uint8 _decimals, uint64 _amount, string _uri, bool _isNF) external onlyOwner returns(uint256 _type)
-        tokenId = Treasure(registry.getAddressOf("Treasure")).create("Area0", "Area", 0, 1000, true);
+        ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
+        tokenId = treasure.create("Area0", "Area", 0, 1000, true);
         // function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) external onlyOwner returns(uint256 _type) {
     }
     function getCurrentBeneficiaryInfo() public view returns(address beneficiary, uint256 ratio){

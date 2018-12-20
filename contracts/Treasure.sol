@@ -31,8 +31,10 @@ contract Treasure is ERC1155MixedFungible, RegistryUser {
         require(creators[_id] == msg.sender);
         _;
     }
-
-    function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) external returns(uint256 _id) {
+    constructor() public {
+        thisDomain = "Treasure";
+    }
+    function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) public returns(uint256 _id) {
 
         // Store the type in the upper 128 bits
         _id = (++nonce << 128);
