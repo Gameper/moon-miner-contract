@@ -93,7 +93,7 @@ contract Mining is IMining, RegistryUser {
 //        uint256 minerTreasureAmount = minedTreasureAmount.sub(holderTreasureAmount);
 
         // send treasure
-        treasure.detectResource(_id, holder, holderTreasureAmount);
+        if(holder != address(0)) treasure.detectResource(_id, holder, holderTreasureAmount);
         treasure.detectResource(_id, msg.sender, minedTreasureAmount.sub(holderTreasureAmount));
 
         // update info
