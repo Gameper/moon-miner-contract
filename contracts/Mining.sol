@@ -44,7 +44,7 @@ contract Mining is IMining, RegistryUser {
         revert();
     }
 
-    function createResource(string _name, string _symbol, uint8 _decimals, uint64 _amount) public permissioned {
+    function createResource(string _name, string _symbol, uint8 _decimals, uint64 _amount) public /*permissioned*/ {
         ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
         uint id = treasure.create(_name, _symbol, _decimals, _amount, false);
         uint256 totalSupply = _amount * 10 ** uint(_decimals);
