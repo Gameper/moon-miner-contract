@@ -2,6 +2,7 @@
 
 import assertRevert from './helpers/assertRevert'
 import EVMRevert from './helpers/EVMRevert'
+import advanceBlock from './helpers/advanceToBlock'
 
 const BigNumber = web3.BigNumber
 
@@ -88,7 +89,7 @@ contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
             await mining.mine(FTid, nonce, digest);
         })
 
-        it.only('Area - Mining - Treasure basic work', async ()=> { 
+        it('Area - Mining - Treasure basic work with 1 NFT buyer', async ()=> { 
             // Buy NFT from Area
             let estimatedReturn = await area.calculatePurchaseReturn(totalSupply, AreaBalance, AreaWeight, ether01);
             console.log(`estimated Return : ${estimatedReturn}`);
@@ -123,10 +124,70 @@ contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
             console.log(`miner mineral balance : ${minerbalance}`)
         })
         
-        
-        
+        it.only('Area - Mining - Treasure basic work with 3 NFT buyer', async ()=> { 
+            // Buy NFT from Area
+            let estimatedReturn = await area.calculatePurchaseReturn(totalSupply, AreaBalance, AreaWeight, ether01);
+            console.log(`estimated Return : ${estimatedReturn}`);
+            
+            await area.buy({from:holder1, value:ether01})
+            await area.buy({from:holder2, value:ether01})
+            await area.buy({from:holder3, value:ether01})
 
-        
+            let list1addr = await area.getHolderIndex(1);
+            NFTid = await area.tokenId();
+            console.log(`list 1 addr : ${list1addr}`)
+            console.log(`token id : ${NFTid}`)
+
+            let holder1NFTbalance = await treasure.balanceOf(holder1, NFTid);
+            let holder2NFTbalance = await treasure.balanceOf(holder2, NFTid);
+            let holder3NFTbalance = await treasure.balanceOf(holder3, NFTid);
+
+            console.log(`holder 1 NFT balance : ${holder1NFTbalance}`)
+            console.log(`holder 2 NFT balance : ${holder2NFTbalance}`)
+            console.log(`holder 3 NFT balance : ${holder3NFTbalance}`)
+
+            await mining.createResource("mineral", "Ruby", 18, 1000);
+            FTid = await mining.tokenId();
+            let nonce = 0;
+            let chDigest = "Hello";
+            let chanllengeNumber = await mining.getChallengeNumber(FTid);
+            let digest = await mining.getMiningDigestByKeccak256(FTid, nonce, chDigest, chanllengeNumber)
+
+            //nonce need to be loop if fail
+            await mining.mine(FTid, nonce, digest);
+
+            chanllengeNumber = await mining.getChallengeNumber(FTid);
+            digest = await mining.getMiningDigestByKeccak256(FTid, nonce, chDigest, chanllengeNumber)
+            await mining.mine(FTid, nonce, digest);
+
+            chanllengeNumber = await mining.getChallengeNumber(FTid);
+            digest = await mining.getMiningDigestByKeccak256(FTid, nonce, chDigest, chanllengeNumber)
+            await mining.mine(FTid, nonce, digest);
+
+            chanllengeNumber = await mining.getChallengeNumber(FTid);
+            digest = await mining.getMiningDigestByKeccak256(FTid, nonce, chDigest, chanllengeNumber)
+            await mining.mine(FTid, nonce, digest);
+
+            chanllengeNumber = await mining.getChallengeNumber(FTid);
+            digest = await mining.getMiningDigestByKeccak256(FTid, nonce, chDigest, chanllengeNumber)
+            await mining.mine(FTid, nonce, digest);
+
+            // await advanceBlock()
+
+            // NFT Holder get reward when mining success
+
+            let holder1FTbalance = await treasure.balanceOf(holder1, FTid);
+            console.log(`holder 1 mineral balance : ${holder1FTbalance}`)
+
+            let holder2FTbalance = await treasure.balanceOf(holder2, FTid);
+            console.log(`holder 2 mineral balance : ${holder2FTbalance}`)
+
+            let holder3FTbalance = await treasure.balanceOf(holder3, FTid);
+            console.log(`holder 3 mineral balance : ${holder3FTbalance}`)
+
+            let minerbalance = await treasure.balanceOf(deployer, FTid);
+            console.log(`miner mineral balance : ${minerbalance}`)
+        })
 
     })
 

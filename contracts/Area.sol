@@ -85,6 +85,10 @@ contract Area is BancorFormula, RegistryUser{
 
             // push
             holderCLL.push(holderNonce, false);
+
+            if(holderIndex[currentBeneficiaryIndex] == address(0)) {
+                currentBeneficiaryIndex = holderNonce;
+            }
             
             holderNonce++;
         }
