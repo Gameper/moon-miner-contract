@@ -88,7 +88,8 @@ contract Mining is IMining, RegistryUser {
         address holder;
         uint256 ratio;
         (holder, ratio) = area.getCurrentBeneficiaryInfo();
-        uint256 holderTreasureAmount = minedTreasureAmount.div(5).div(uint256(10**18).div(ratio));
+        uint256 holderTreasureAmount;
+        ratio == 0 ? holderTreasureAmount = 0 : holderTreasureAmount= minedTreasureAmount.div(5).div(uint256(10**18).div(ratio));
 //        uint256 minerTreasureAmount = minedTreasureAmount.sub(holderTreasureAmount);
 
         // send treasure
