@@ -140,6 +140,39 @@ contract Area is BancorFormula, RegistryUser{
 
     }
 
+    function buyWithMinimum(uint256 _minReturn) public payable returns (bool success) {
+        Treasure treasure = Treasure(registry.getAddressOf("Treasure"));
+        uint256 totalSupply = treasure.totalSupply(tokenId);
+
+        //function calculatePurchaseReturn(uint256 _supply, uint256 _connectorBalance, uint32 _connectorWeight, uint256 _depositAmount) public view returns (uint256);
+        uint256 mintingAmount = calculatePurchaseReturn(totalSupply, AreaBalance, AreaWeight, msg.value);
+        
+        require(mintingAmount >= _minReturn, "not expected return amount");
+        // batchMint(mintingAmount, msg.sender, "Area0Security")
+        // temporaily function mintNonFungible(uint256 _type, address[] _to) external creatorOnly(_type)
+        
+        address[] memory getter = new address[](1);
+        getter[0] = msg.sender;
+        
+        for(uint256 i=0;i<mintingAmount;i++) {
+            treasure.mintNonFungible(tokenId, getter);
+        }
+
+        // add holder to linked list if not exist
+        addHolder(msg.sender);
+        
+        // set time lock
+        timelock[msg.sender] = now;
+        
+        // balance added to the contract
+        AreaBalance += msg.value;
+        
+        emit Buy(msg.sender, msg.value, mintingAmount);
+        
+        return true;
+
+    }
+
     function sell(uint256 _sellAmount) public returns (bool success){
         
         // sell need to be waited at least 1 hour after buy
