@@ -197,6 +197,11 @@ contract Mining is IMining, RegistryUser {
         return miningInfo.miningTarget;
     }
 
+    function getTotalMined(uint256 _id) public view returns (uint256) {
+        MiningInfo memory miningInfo = miningInfos[_id];
+        return miningInfo.totalTreasureMined;
+    }
+
     function getMiningReward(uint256 _id) public view returns (uint256) {
 
         ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
