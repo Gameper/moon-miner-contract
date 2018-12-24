@@ -4,7 +4,6 @@ import './bancor/BancorFormula.sol';
 import './RegistryUser.sol';
 import './ERC1155/IERC1155.sol';
 import './utils/LibCLL.sol';
-import './Treasure.sol';
 import './interface/ITreasure.sol';
 
 /**
@@ -39,6 +38,7 @@ contract Area is BancorFormula, RegistryUser{
         thisDomain = "Area";
     }
 
+
     function deposit() public payable {
         AreaBalance += msg.value;
     }
@@ -54,14 +54,18 @@ contract Area is BancorFormula, RegistryUser{
         return holderCLL.getNode(_n);
     }
 
-    function initialize() public {
+    /**
+     * @dev Initialize Area. Create Area Security token type on the Treasure(ERC1155).
+     * @return A boolean that indicates if the operation was successful.
+     */
+    function initialize() /* internal */ public {
         // function create(string _name, string _symbol, uint8 _decimals, uint64 _amount, string _uri, bool _isNF) external onlyOwner returns(uint256 _type)
         ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
         tokenId = treasure.create("Area0", "Area", 0, 1000, true);
         // function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) external onlyOwner returns(uint256 _type) {
     }
     function getCurrentBeneficiaryInfo() public view returns(address beneficiary, uint256 ratio){
-        Treasure treasure = Treasure(registry.getAddressOf("Treasure"));
+        ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
         address bene = holderIndex[currentBeneficiaryIndex];
         return (bene, treasure.balanceOf(bene, tokenId));
     }
@@ -118,7 +122,7 @@ contract Area is BancorFormula, RegistryUser{
     * @return A boolean that indicates if the operation was successful.
     */
     function buy() public payable returns (bool success){
-        Treasure treasure = Treasure(registry.getAddressOf("Treasure"));
+        ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
         uint256 totalSupply = treasure.totalSupply(tokenId);
 
         //function calculatePurchaseReturn(uint256 _supply, uint256 _connectorBalance, uint32 _connectorWeight, uint256 _depositAmount) public view returns (uint256);
@@ -149,8 +153,13 @@ contract Area is BancorFormula, RegistryUser{
 
     }
 
+    /**
+     * @dev Buy security tokens with ether at least {_minReturn}. Currently, contract do not return rest of the ether.
+     * @param _minReturn expected miniumReturn by user
+     * @return A boolean that indicates if the operation was successful.
+     */
     function buyWithMinimum(uint256 _minReturn) public payable returns (bool success) {
-        Treasure treasure = Treasure(registry.getAddressOf("Treasure"));
+        ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
         uint256 totalSupply = treasure.totalSupply(tokenId);
 
         //function calculatePurchaseReturn(uint256 _supply, uint256 _connectorBalance, uint32 _connectorWeight, uint256 _depositAmount) public view returns (uint256);
@@ -182,12 +191,17 @@ contract Area is BancorFormula, RegistryUser{
 
     }
 
+    /**
+     * @dev Sell tokens. User gets ether.
+     * @param _sellAmount sell token amount
+     * @return A boolean that indicates if the operation was successful.
+     */
     function sell(uint256 _sellAmount) public returns (bool success){
         
         // sell need to be waited at least 1 hour after buy
         // require(now - timelock[msg.sender] > 3600, "You should wait"); 
 
-        Treasure treasure = Treasure(registry.getAddressOf("Treasure"));
+        ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
         uint256 totalSupply = treasure.totalSupply(tokenId);
 
         uint256 returnAmount = calculateSaleReturn(totalSupply, AreaBalance, AreaWeight, _sellAmount);
@@ -213,13 +227,13 @@ contract Area is BancorFormula, RegistryUser{
     }
 
     function getExpectedPurchasePrice(uint256 amount) public view returns (uint256) {
-        Treasure treasure = Treasure(registry.getAddressOf("Treasure"));
+        ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
         uint256 totalSupply = treasure.totalSupply(tokenId);
         return calculatePurchaseReturn(totalSupply, AreaBalance, AreaWeight, amount);
     }
 
     function getExpectedSellPrice(uint256 amount) public view returns (uint256) {
-        Treasure treasure = Treasure(registry.getAddressOf("Treasure"));
+        ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
         uint256 totalSupply = treasure.totalSupply(tokenId);
         return calculateSaleReturn(totalSupply, AreaBalance, AreaWeight, amount);
     }

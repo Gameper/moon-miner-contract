@@ -8,4 +8,6 @@ interface ITreasure {
     function name(uint256 _id) external view returns (string);
     function symbolOrUri(uint256 _id) external view returns (string);
     function decimals(uint256 _id) external view returns (uint8);
+    function balanceOf(address _owner, uint256 _id) external view returns (uint256);
+    function burnNonFungible(uint256 _id, address _to) external;
 }
