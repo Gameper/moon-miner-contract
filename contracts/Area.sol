@@ -12,6 +12,7 @@ import './interface/ITreasure.sol';
  * @dev User can buy/sell ERC721 security token from Area contract along with the bancor alogrithm.
  * Area has the holder list in the form of the circular linked list from buy/sell operation.
  * If transfer is used from outside(token transfer), then you should let area contract know.
+ * There is a time lock between buy and sell.
  * 
  */
 contract Area is BancorFormula, RegistryUser{
