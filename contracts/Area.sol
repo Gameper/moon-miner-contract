@@ -9,7 +9,10 @@ import './interface/ITreasure.sol';
 
 /**
  * @title Area
- * @dev Area
+ * @dev User can buy/sell ERC721 security token from Area contract along with the bancor alogrithm.
+ * Area has the holder list in the form of the circular linked list from buy/sell operation.
+ * If transfer is used from outside(token transfer), then you should let area contract know.
+ * 
  */
 contract Area is BancorFormula, RegistryUser{
     
@@ -108,6 +111,11 @@ contract Area is BancorFormula, RegistryUser{
 
     }
 
+    /**
+    * @dev Buy security token. The amount of the ERC 721 token is determined by bancor, 
+    * using ether value(connector token or msg.value)
+    * @return A boolean that indicates if the operation was successful.
+    */
     function buy() public payable returns (bool success){
         Treasure treasure = Treasure(registry.getAddressOf("Treasure"));
         uint256 totalSupply = treasure.totalSupply(tokenId);
