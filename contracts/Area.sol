@@ -211,4 +211,16 @@ contract Area is BancorFormula, RegistryUser{
         emit Sell(msg.sender, returnAmount, _sellAmount);
         
     }
+
+    function getExpectedPurchasePrice(uint256 amount) public view returns (uint256) {
+        Treasure treasure = Treasure(registry.getAddressOf("Treasure"));
+        uint256 totalSupply = treasure.totalSupply(tokenId);
+        return calculatePurchaseReturn(totalSupply, AreaBalance, AreaWeight, amount);
+    }
+
+    function getExpectedSellPrice(uint256 amount) public view returns (uint256) {
+        Treasure treasure = Treasure(registry.getAddressOf("Treasure"));
+        uint256 totalSupply = treasure.totalSupply(tokenId);
+        return calculateSaleReturn(totalSupply, AreaBalance, AreaWeight, amount);
+    }
 }
