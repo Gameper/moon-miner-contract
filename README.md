@@ -1,17 +1,17 @@
+![meta logo](./misc/gameper-logo.png)
 # Moon-Miner Smart Contract
+[![Generic badge](https://img.shields.io/badge/build-passing-green.svg)](https://shields.io/)    [![Generic badge](https://img.shields.io/badge/licence-MIT-blue.svg)](https://shields.io/)
 
-## Common interface
+Moon Miner Project Smart Contract
 
-On area0 bancor
+
+
+
+# Test
 
 ```
-function getCurrentBeneficiaryInfo() public view returns(address beneficiary, uint256 ratio);
+$ npm install
+$ npm install -g ganache-cli
+$ ganache-cli
+$ truffle test test/area.test.js
 ```
-
-```
-function moveCursor() public permissioned returns (bool success);
-```
-
-ratio base : 10^18;
-ratio calculation : ratio / 10^18
-e.g. minting token * (ratio / 10^18) * (2/10) : minting token * (token holding rate) * (miner:holder rate)

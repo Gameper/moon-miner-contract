@@ -46,7 +46,7 @@ contract Area is BancorFormula, RegistryUser{
         return holderIndex[_index];
     }
 
-    function getIsholderIndexExists(address _addr) public view returns(uint256 index) {
+    function getIsHolderIndexExists(address _addr) public view returns(uint256 index) {
         return isholderIndexExists[_addr];
     }
 
