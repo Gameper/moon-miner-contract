@@ -27,7 +27,7 @@ contract Area is BancorFormula, RegistryUser{
     using LibCLLu for LibCLLu.CLL;
 
     LibCLLu.CLL holderCLL;
-    uint256 holderNonce = 1;
+    uint256 public holderNonce = 1;
     mapping (uint256 => address) internal holderIndex;
     mapping (address => uint256) internal isholderIndexExists;
 
@@ -70,6 +70,7 @@ contract Area is BancorFormula, RegistryUser{
         return (bene, treasure.balanceOf(bene, tokenId));
     }
 
+    //TODO : PUBLIC should be PERMISSIONED after mvp
     function moveCursor() public returns (bool success){
         currentBeneficiaryIndex = holderCLL.step(currentBeneficiaryIndex, false);
         return true;
@@ -85,11 +86,11 @@ contract Area is BancorFormula, RegistryUser{
         }
     }
 
-    function addHolder(address _holder) internal {
-        if(isholderIndexExists[msg.sender] == 0){
+    function addHolder(address _holder) public /* internal */{
+        if(isholderIndexExists[_holder] == 0){
             // pointer add
-            holderIndex[holderNonce] = msg.sender;
-            isholderIndexExists[msg.sender] = holderNonce;
+            holderIndex[holderNonce] = _holder;
+            isholderIndexExists[_holder] = holderNonce;
 
             // push
             holderCLL.push(holderNonce, false);
@@ -102,16 +103,16 @@ contract Area is BancorFormula, RegistryUser{
         }
     }
 
-    function removeHolder(address _holder) internal {
+    function removeHolder(address _holder) public /* internal */ {
         // remove holder from linked list if token balance == 0 and move cursor if needed
         
-        if(currentBeneficiaryIndex == isholderIndexExists[msg.sender]){
+        if(currentBeneficiaryIndex == isholderIndexExists[_holder]){
             moveCursor();
         }
 
-        holderCLL.remove(isholderIndexExists[msg.sender]);
-        uint256 index = isholderIndexExists[msg.sender];
-        delete isholderIndexExists[msg.sender];
+        holderCLL.remove(isholderIndexExists[_holder]);
+        uint256 index = isholderIndexExists[_holder];
+        delete isholderIndexExists[_holder];
         delete holderIndex[index];
 
     }
