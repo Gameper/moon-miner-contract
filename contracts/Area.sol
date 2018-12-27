@@ -33,6 +33,8 @@ contract Area is BancorFormula, RegistryUser{
 
     event Buy(address indexed buyer, uint256 deposit, uint256 buyTokenAmount);
     event Sell(address indexed seller, uint256 returnDepoist, uint256 sellTokenAmount);
+    event Deposit(address indexed depositor, uint256 deposit);
+    event Withdraw(address indexed withdrawer, uint256 withdraw);
 
     constructor() public {
         thisDomain = "Area";
@@ -41,7 +43,17 @@ contract Area is BancorFormula, RegistryUser{
 
     function deposit() public payable {
         AreaBalance += msg.value;
+        emit Deposit(msg.sender, msg.value);
     }
+
+    function withdraw(uint256 _value) public onlyOwner returns (bool success) {
+        AreaBalance -= _value;
+        msg.sender.transfer(_value);
+
+        emit Withdraw(msg.sender, _value);
+        return true;
+    }
+
     function getHolderIndex(uint256 _index) public view returns(address holder) {
         return holderIndex[_index];
     }
@@ -64,6 +76,11 @@ contract Area is BancorFormula, RegistryUser{
         tokenId = treasure.create("Area0", "Area", 0, 1000, true);
         // function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) external onlyOwner returns(uint256 _type) {
     }
+
+    /**
+     * @dev You can get the current beneficary info. ratio will be determined by the precise equation after mvp.
+     * @return beneficiary and ratio.
+     */
     function getCurrentBeneficiaryInfo() public view returns(address beneficiary, uint256 ratio){
         ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
         address bene = holderIndex[currentBeneficiaryIndex];
