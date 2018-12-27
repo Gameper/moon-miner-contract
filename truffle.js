@@ -13,27 +13,37 @@ require('babel-register')
  *   },
  */
 
+const HDWalletProvider = require("truffle-hdwallet-provider");
+const mnemonic = process.env.MY_MNEMONIC;
 module.exports = {
-  // See <http://truffleframework.com/docs/advanced/configuration>
-  // to customize your Truffle configuration!
-  networks: {
-    development: {
-      host: "localhost",
-      port: 8545,
-      network_id: "*", // Match any network id
+    // See <http://truffleframework.com/docs/advanced/configuration>
+    // to customize your Truffle configuration!
+    networks: {
+        development: {
+            host: "localhost",
+            port: 8545,
+            network_id: "*", // Match any network id
+        },
+        ropsten: {
+            provider: function () {
+                return new HDWalletProvider(mnemonic, `https://ropsten.infura.io/${process.env.INFURA_KEY}`);
+            },
+            network_id: 3,
+            gas: 7000000,
+            gasPrice: 2000000000
+        },
+    },
+    solc: {
+        optimizer: {
+            enabled: true,
+            runs: 200
+        }
+    },
+    mocha: {
+        reporter: 'eth-gas-reporter',
+        reporterOptions: {
+            currency: 'USD',
+            gasPrice: 21
+        }
     }
-  },
-  solc: {
-    optimizer: {
-      enabled: true,
-      runs: 200
-    }
-  },
-  mocha: {
-    reporter: 'eth-gas-reporter',
-    reporterOptions: {
-      currency: 'USD',
-      gasPrice: 21
-    }
-  }
 };

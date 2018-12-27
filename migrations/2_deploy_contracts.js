@@ -29,8 +29,10 @@ async function deploy(deployer, network, accounts) {
             await mining.setRegistry(registry.address)
     
             await area.initialize();
-            await area.deposit({value:ether1*10})
+            await area.deposit({value:ether1*10});
             AreaBalance = ether1 * 10;
+
+            await mining.createResource("Mineral", "MLL", 18, 21000000);
 
         })
 
