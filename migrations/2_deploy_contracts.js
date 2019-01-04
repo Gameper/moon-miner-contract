@@ -13,6 +13,7 @@ async function deploy(deployer, network, accounts) {
 
     if (args[3] == 'all') {
         deployer.then(async () => {
+            
             registry = await deployer.deploy(Registry)
             area = await deployer.deploy(Area)
             treasure = await deployer.deploy(Treasure)
