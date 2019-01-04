@@ -28,15 +28,18 @@ contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
         
         await registry.setDomain("Area", area.address)
         await registry.setDomain("Treasure", treasure.address)
+
         await registry.setPermission("Area", treasure.address, "true")
         await registry.setPermission("Treasure", area.address, "true")
         await registry.setPermission("Mining", mining.address, "true")
+        await registry.setPermission("Area", mining.address, "true")
         
         await area.setRegistry(registry.address)
         await treasure.setRegistry(registry.address)
         await mining.setRegistry(registry.address)
-
-        await area.initialize();
+        
+        
+        await area.initialize("Area0", "Area", 0, 1000, "true"); // "Area0", "Area", 0, 1000, true
         await area.deposit({value:ether1*10})
 
         totalSupply = 1000;
@@ -124,7 +127,7 @@ contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
             console.log(`miner mineral balance : ${minerbalance}`)
         })
         
-        it.only('Area - Mining - Treasure basic work with 3 NFT buyer', async ()=> { 
+        it('Area - Mining - Treasure basic work with 3 NFT buyer', async ()=> { 
             // Buy NFT from Area
             let estimatedReturn = await area.calculatePurchaseReturn(totalSupply, AreaBalance, AreaWeight, ether01);
             console.log(`estimated Return : ${estimatedReturn}`);

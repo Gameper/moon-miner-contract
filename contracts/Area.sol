@@ -5,6 +5,7 @@ import './RegistryUser.sol';
 import './ERC1155/IERC1155.sol';
 import './utils/LibCLL.sol';
 import './interface/ITreasure.sol';
+import './interface/IArea.sol';
 
 /**
  * @title Area
@@ -14,11 +15,11 @@ import './interface/ITreasure.sol';
  * There is a time lock between buy and sell.
  * 
  */
-contract Area is BancorFormula, RegistryUser{
+contract Area is BancorFormula, IArea, RegistryUser{
     
     uint32 public AreaWeight = 1000000;
     uint256 public AreaBalance;
-    uint256 public depositAmount;
+    //uint256 public depositAmount;
     uint256 public tokenId = 0;
 
     uint256 public currentBeneficiaryIndex = 1;
@@ -70,11 +71,12 @@ contract Area is BancorFormula, RegistryUser{
      * @dev Initialize Area. Create Area Security token type on the Treasure(ERC1155).
      * @return A boolean that indicates if the operation was successful.
      */
-    function initialize() /* internal */ public {
-        // function create(string _name, string _symbol, uint8 _decimals, uint64 _amount, string _uri, bool _isNF) external onlyOwner returns(uint256 _type)
+    function initialize(string _uri, string _symbol, uint8 _decimals, uint64 _amount, bool _isNF) public onlyOwner {
         ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
-        tokenId = treasure.create("Area0", "Area", 0, 1000, true);
-        // function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) external onlyOwner returns(uint256 _type) {
+        
+        // function create(string _name, string _symbolOrUri, uint8 _decimals, uint64 _amount, bool _isNF) external onlyOwner returns(uint256 _type)
+        tokenId = treasure.create(_uri, _symbol, _decimals, _amount, _isNF); // "Area0", "Area", 0, 1000, true
+        
     }
 
     /**
@@ -88,7 +90,12 @@ contract Area is BancorFormula, RegistryUser{
     }
 
     //TODO : PUBLIC should be PERMISSIONED after mvp
-    function moveCursor() public returns (bool success){
+    function moveCursor() public permissioned returns (bool success){
+        currentBeneficiaryIndex = holderCLL.step(currentBeneficiaryIndex, false);
+        return true;
+    }
+
+    function moveCursorInternal() internal returns (bool success){
         currentBeneficiaryIndex = holderCLL.step(currentBeneficiaryIndex, false);
         return true;
     }
@@ -103,7 +110,7 @@ contract Area is BancorFormula, RegistryUser{
         }
     }
 
-    function addHolder(address _holder) public /* internal */{
+    function addHolder(address _holder) internal {
         if(isholderIndexExists[_holder] == 0){
             // pointer add
             holderIndex[holderNonce] = _holder;
@@ -120,11 +127,11 @@ contract Area is BancorFormula, RegistryUser{
         }
     }
 
-    function removeHolder(address _holder) public /* internal */ {
+    function removeHolder(address _holder) internal {
         // remove holder from linked list if token balance == 0 and move cursor if needed
         
         if(currentBeneficiaryIndex == isholderIndexExists[_holder]){
-            moveCursor();
+            moveCursorInternal();
         }
 
         holderCLL.remove(isholderIndexExists[_holder]);
