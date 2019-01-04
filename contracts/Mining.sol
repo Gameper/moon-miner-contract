@@ -32,7 +32,7 @@ contract Mining is IMining, RegistryUser {
 
     // a little & big number (target)
     uint256 public constant _MINIMUM_TARGET = 2 ** 16;
-    uint256 public constant _MAXIMUM_TARGET = 2 ** 234;
+    uint256 public constant _MAXIMUM_TARGET = 2 ** 250;
 
     constructor() public {
         thisDomain = "Mining";
@@ -228,7 +228,7 @@ contract Mining is IMining, RegistryUser {
         require(_challenge_digest == digestByKeccak256 || _challenge_digest == digestBySha256, "hash result is not correct");
 
         // check difficulty
-        // require(uint256(_challenge_digest) < _testTarget, "this solution can not pass the mining target");
+        require(uint256(_challenge_digest) < _testTarget, "this solution can not pass the mining target");
 
         return true;
     }
