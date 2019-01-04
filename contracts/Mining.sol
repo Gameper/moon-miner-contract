@@ -232,5 +232,46 @@ contract Mining is IMining, RegistryUser {
 
         return true;
     }
+
+    /**
+    * @dev Total number of tokens in existence
+    */
+    function totalSupply() public view returns (uint256) {
+        ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
+        return treasure.totalSupply(tokenId);
+    }
+
+    /**
+     * @return the name of the token.
+     */
+    function name() public view returns (string) {
+        ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
+        return treasure.name(tokenId);
+    }
+
+    /**
+     * @return the symbol of the token.
+     */
+    function symbol() public view returns (string) {
+        ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
+        return treasure.symbolOrUri(tokenId);
+    }
+
+    /**
+     * @return the number of decimals of the token.
+     */
+    function decimals() public view returns (uint8) {
+        ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
+        return treasure.decimals(tokenId);
+    }
+
+    /**
+     * @return the number of balance of the token.
+     */
+    function balanceOf(address tokenOwner) public constant returns (uint balance) {
+        ITreasure treasure = ITreasure(registry.getAddressOf("Treasure"));
+        return treasure.balanceOf(tokenOwner, tokenId);
+
+    }
 }
 
