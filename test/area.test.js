@@ -25,7 +25,15 @@ contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
         registry = await Registry.new()
         treasure = await Treasure.new()
         mining = await Mining.new()
-        
+        console.log(`mining address : ${mining.address}`)
+        console.log(`mining address : ${mining.address}`)
+        console.log(`mining address : ${mining.address}`)
+        console.log(`mining address : ${mining.address}`)
+        console.log(`mining address : ${mining.address}`)
+        console.log(`mining address : ${mining.address}`)
+        console.log(`mining address : ${mining.address}`)
+        console.log(`mining address : ${mining.address}`)
+        console.log(`mining address : ${mining.address}`)
         await registry.setDomain("Area", area.address)
         await registry.setDomain("Treasure", treasure.address)
 
