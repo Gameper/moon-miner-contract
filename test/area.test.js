@@ -79,17 +79,18 @@ contract('Area', function ([deployer, holder1, holder2, holder3, holder4]) {
 
         });
 
-        it('Mining can deployed', async ()=> { 
+        it.only('Mining can deployed', async ()=> { 
             
             await mining.createResource("mineral", "Ruby", 18, 1000);
-            FTid = await mining.tokenId();
+            // FTid = await mining.tokenId();
             let nonce = 0;
             let chDigest = "Hello";
-            let chanllengeNumber = await mining.getChallengeNumber(FTid);
-            let digest = await mining.getMiningDigestByKeccak256(FTid, nonce, chDigest, chanllengeNumber)
+            let chanllengeNumber = await mining.getChallengeNumber();
+            let digest = await mining.getMintDigest(nonce, chDigest, chanllengeNumber)
 
             //nonce need to be loop if fail
-            await mining.mine(FTid, nonce, digest);
+            // await mining.mine(FTid, nonce, digest);
+            await mining.mint(nonce, digest);
         })
 
         it('Area - Mining - Treasure basic work with 1 NFT buyer', async ()=> { 
