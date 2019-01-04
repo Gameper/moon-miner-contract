@@ -21,17 +21,23 @@ async function deploy(deployer, network, accounts) {
             await registry.setDomain("Area", area.address)
             await registry.setDomain("Treasure", treasure.address)
             await registry.setDomain("Mining", mining.address)
+            
             await registry.setPermission("Area", treasure.address, "true")
             await registry.setPermission("Treasure", area.address, "true")
-            
+            await registry.setPermission("Mining", mining.address, "true")
+            await registry.setPermission("Area", mining.address, "true")
+
             await area.setRegistry(registry.address)
             await treasure.setRegistry(registry.address)
             await mining.setRegistry(registry.address)
-    
-            await area.initialize();
-            await area.deposit({value:ether1*10});
+            
+            console.log(`area initialize`)
+            await area.initialize("Area0", "Area", 0, 1000, "true");
+            console.log(`area deposit`)
+            await area.deposit({value:10000000000000000000});
             AreaBalance = ether1 * 10;
 
+            console.log(`mining create resource`)
             await mining.createResource("Mineral", "MLL", 18, 21000000);
 
         })
